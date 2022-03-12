@@ -19,6 +19,8 @@ It will also generate surrogate timeseries for the following:
 - Eigensurrogate model from [Shinn et al (2022)](https://www.biorxiv.org/content/10.1101/2021.06.01.446561v1)
 - Phase scramble null model
 
+[See complete documentation](https://spatiotemporal.readthedocs.io)
+
 ## Installation
 
 To install:
