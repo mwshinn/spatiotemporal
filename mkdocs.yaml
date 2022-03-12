@@ -1,0 +1,21 @@
+site_name: Spatial and temporal autocorrelation
+theme: readthedocs
+nav:
+    - Home: index.md
+    - API: api.md
+
+
+plugins:
+- search
+- mkdocstrings:
+    default_handler: python
+    handlers:
+      python:
+        rendering:
+          show_source: false
+          heading_level: 3
+
+markdown_extensions:
+  - admonition
+
+repo_url: https://github.com/mwshinn/spatiotemporal
