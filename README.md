@@ -9,7 +9,7 @@ Included are methods to compute the following statistics:
 - Compute TA-Δ<sub>1</sub> (i.e. first-order temporal autocorrelation)
 - Compute SA-λ and SA-∞ (i.e. measurements of spatial autocorrelation)
 - Lin's concordance
-- Fingerprinting performance, from [https://www.nature.com/articles/nn.4135](Finn et al (2015))
+- Fingerprinting performance, from [Finn et al (2015)](https://www.nature.com/articles/nn.4135)
 
 It will also generate surrogate timeseries for the following:
 
