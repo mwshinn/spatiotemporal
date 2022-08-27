@@ -57,7 +57,7 @@ def test_temporal_autocorrelation():
     for i,target_ta in enumerate([0, .2, .4, .6, .8]):
         alpha = st.models.ta_to_alpha_fast(1000, 1, .01, target_ta)
         spec = st.models.make_spectrum(1000, 1, alpha, .01)
-        ts = st.models.spatial_temporal_timeseries(np.asarray([[1]]), np.asarray([spec]), seed=i)
+        ts = st.models.correlated_spectral_sampling(np.asarray([[1]]), np.asarray([spec]), seed=i)
         ta = st.temporal_autocorrelation(ts)
         assert np.abs(ta - target_ta) < .05
 
@@ -92,7 +92,7 @@ def test_spatiotemporal_model():
         # Don't know how to test SA-lambda...
         assert (np.mean(np.corrcoef(tss)) - params[1])
 
-def test_spatiotemporal_noiseless_model():
+def test_intrinsic_timescale_sa_model():
     poss = np.random.rand(50,3)*100
     seed = 200
     distance_matrix = st.tools.distance_matrix_euclidean(poss)
@@ -102,7 +102,7 @@ def test_spatiotemporal_noiseless_model():
     highpass_freq = .01
     seed = 1
     for i,params in enumerate([(20, .05), (50, .1), (10, 0)]):
-        tss = st.spatiotemporal_noiseless_model_timeseries(distance_matrix, params[0], params[1], ta_delta1s, num_timepoints, sample_rate, highpass_freq, seed=i+seed+1)
+        tss = st.intrinsic_timescale_sa_model_timeseries(distance_matrix, params[0], params[1], ta_delta1s, num_timepoints, sample_rate, highpass_freq, seed=i+seed+1)
         newtas = st.temporal_autocorrelation(tss)
         assert np.max(np.abs(ta_delta1s-newtas)) < .05
         # Don't know how to test SA-lambda...

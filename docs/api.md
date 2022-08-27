@@ -6,7 +6,7 @@
     selection:
       members:
         - spatiotemporal_model_timeseries
-        - spatiotemporal_noiseless_model_timeseries
+        - intrinsic_timescale_sa_model_timeseries
 
 ## Surrogate timeseries
 
@@ -21,7 +21,7 @@
 ::: spatiotemporal.models
     selection:
       members:
-        - spatial_temporal_timeseries
+        - correlated_spectral_sampling
         - make_spectrum
         - how_much_noise
         - ta_to_alpha

@@ -33,7 +33,7 @@ def spatiotemporal_model_timeseries(distance_matrix, sa_lambda, sa_inf, ta_delta
     # Spatial autocorrelation matrix
     corr = spatial_exponential_floor(distance_matrix, sa_lambda, sa_inf)
     # Create spatially embedded timeseries with the given spectra
-    tss = spatial_temporal_timeseries(corr, spectra, seed=seed)
+    tss = correlated_spectral_sampling(corr, spectra, seed=seed)
     # Compute the standard deviation of nosie we need to add to get the desired TA-delta1
     noises = [how_much_noise(spectrum, max(.001, ta_delta1)) for ta_delta1 in ta_delta1s]
     # Add noise to the timeseries
@@ -41,8 +41,8 @@ def spatiotemporal_model_timeseries(distance_matrix, sa_lambda, sa_inf, ta_delta
     tss += rng.randn(tss.shape[0], tss.shape[1]) * np.asarray(noises).reshape(-1,1)
     return tss
 
-def spatiotemporal_noiseless_model_timeseries(distance_matrix, sa_lambda, sa_inf, ta_delta1s, num_timepoints, sample_rate, highpass_freq, seed=0):
-    """Simulate the noiseless spatiotemporal model from [Shinn et al (2022)](https://www.biorxiv.org/content/10.1101/2021.06.01.446561v1)
+def intrinsict_timescale_sa_model_timeseries(distance_matrix, sa_lambda, sa_inf, ta_delta1s, num_timepoints, sample_rate, highpass_freq, seed=0):
+    """Simulate the intrinsic timescale + spatial autocorrelation model from [Shinn et al (2022)](https://www.biorxiv.org/content/10.1101/2021.06.01.446561v1)
 
     Args:
       distance_matrix (NxN numpy array): the NxN distance matrix, representing the spatial distance
@@ -59,7 +59,7 @@ def spatiotemporal_noiseless_model_timeseries(distance_matrix, sa_lambda, sa_inf
           the current state of the numpy random number generator.
 
     Returns:
-      NxT numpy array: For each of the N nodes, a timeseries of length T=`num_timepoints` according to the noiseless spatiotemporal model
+      NxT numpy array: For each of the N nodes, a timeseries of length T=`num_timepoints` according to the intrinsic timescale + spatial autocorrelation model
     """
     assert num_timepoints % 2 == 0, "Must be even timeseries length"
     # Determine the pink noise exponent alpha from the TA-delta1
@@ -69,12 +69,15 @@ def spatiotemporal_noiseless_model_timeseries(distance_matrix, sa_lambda, sa_inf
     # Spatial autocorrelation matrix
     corr = spatial_exponential_floor(distance_matrix, sa_lambda, sa_inf)
     # Compute timeseries from desired correlation matrix and frequency spectra
-    tss = spatial_temporal_timeseries(cm=corr, spectra=spectra, seed=seed)
+    tss = correlated_spectral_sampling(cm=corr, spectra=spectra, seed=seed)
     return tss
 
 
-def spatial_temporal_timeseries(cm, spectra, seed=None):
+def correlated_spectral_sampling(cm, spectra, seed=None):
     """Generate timeseries with given amplitude spectra and correlation matrices
+
+    This implements Correlated Spectral Sampling, as described in [Shinn et al
+    (2022)](https://www.biorxiv.org/content/10.1101/2021.06.01.446561v1).
 
     Args:
       cm (NxN numpy array): The correlation matrix
@@ -86,6 +89,7 @@ def spatial_temporal_timeseries(cm, spectra, seed=None):
     Returns:
       NxT numpy array: N timeseries of length T.  Timeseries i will have a power spectrum given by `spectra[i]`,
           and will be correlated with the other timeseries with correlations cm[i].
+
     """
     N_regions = cm.shape[0]
     N_freqs = len(spectra[0])
@@ -209,6 +213,21 @@ def ta_to_alpha_fast(tslen, sample_rate, highpass_freq, target_ta):
     val = ta_to_alpha(*key)
     ta_to_alpha_cache[key] = val
     return val
+
+def make_noisy_spectrum(tslen, sample_rate, alpha, highpass_freq, target_ar1):
+    """Similar to make_spectrum, except adds white noise to the spectrum
+    (i.e. uniform distribution).  Returns the fourier spectrum (amplitude
+    spectrum).
+
+    This also applies the same filter as make_spectrum.
+
+    """
+    noiseless_spectrum = make_spectrum(tslen, sample_rate, alpha, highpass_freq)
+    N = len(noiseless_spectrum)
+    noise = how_much_noise(noiseless_spectrum, target_ar1)
+    noisy_spectrum = np.sqrt(noiseless_spectrum**2 + noise**2 * N)
+    noisy_spectrum[0] = 0
+    return noisy_spectrum
 
 class PositiveSemidefiniteError(Exception):
     pass

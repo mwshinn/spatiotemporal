@@ -14,7 +14,7 @@ Included are methods to compute the following statistics:
 It will also generate surrogate timeseries for the following:
 
 - [Spatiotemporal model][spatiotemporal.models.spatiotemporal_model_timeseries]
-- [Noiseless spatiotemporal model][spatiotemporal.models.spatiotemporal_noiseless_model_timeseries]
+- [Intrinsic timescale + SA model][spatiotemporal.models.intrinsic_timescale_sa_model_timeseries]
 - [Zalesky matching model][spatiotemporal.surrogates.zalesky_surrogate]
 - [Eigensurrogate model][spatiotemporal.surrogates.eigensurrogate_matrix]
 - [Phase randomization null model][spatiotemporal.surrogates.phase_randomize]
