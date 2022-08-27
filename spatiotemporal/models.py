@@ -41,7 +41,7 @@ def spatiotemporal_model_timeseries(distance_matrix, sa_lambda, sa_inf, ta_delta
     tss += rng.randn(tss.shape[0], tss.shape[1]) * np.asarray(noises).reshape(-1,1)
     return tss
 
-def intrinsict_timescale_sa_model_timeseries(distance_matrix, sa_lambda, sa_inf, ta_delta1s, num_timepoints, sample_rate, highpass_freq, seed=0):
+def intrinsic_timescale_sa_model_timeseries(distance_matrix, sa_lambda, sa_inf, ta_delta1s, num_timepoints, sample_rate, highpass_freq, seed=0):
     """Simulate the intrinsic timescale + spatial autocorrelation model from [Shinn et al (2022)](https://www.biorxiv.org/content/10.1101/2021.06.01.446561v1)
 
     Args:

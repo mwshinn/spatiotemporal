@@ -23,7 +23,7 @@ def spatial_autocorrelation(cm, dist, discretization=1):
           to get an appropriate estimation.
 
     Returns:
-      tuple of (SA-λ, SA-∞)
+      tuple of floats: tuple of (SA-λ, SA-∞)
     """
     cm_flat = cm.flatten()
     dist_flat = dist.flatten()

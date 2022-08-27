@@ -16,7 +16,7 @@ def fingerprint(subjects, values):
         incorrect matches for a given subject than there are in Finn et al (2015).
 
     Args:
-      subjects (list or 1xN numpy array) should be a list of length N giving the subject ID.  N should be
+      subjects (list or 1xN numpy array): a list of length N giving the subject ID.  N should be
           the total number of observations, e.g., if there are 10 subjects with 3
           scans each, N = 30.
       values (Nxk numpy array): numpy matrix, where N is as above and k is the size of
