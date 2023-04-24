@@ -6,7 +6,7 @@ from .tools import get_eigenvalues, make_perfectly_symmetric
 import scipy.stats
 
 def eigensurrogate_matrix(cm, seed=None):
-    """Eigensurrogate model, from [Shinn et al (2022)](https://www.biorxiv.org/content/10.1101/2021.06.01.446561v1)
+    """Eigensurrogate model, from [Shinn et al (2023)](https://www.nature.com/articles/s41593-023-01299-3)
 
     Determine the eigenvalues of the correlation matrix, and then sample a new
     correlation matrix with the same eigenvalues.

@@ -7,7 +7,7 @@ import scipy.spatial
 import scipy.optimize
 
 def spatial_autocorrelation(cm, dist, discretization=1):
-    """Calculate the SA-λ and SA-∞ measures of spatial autocorrelation, defined in [Shinn et al (2022)](https://www.biorxiv.org/content/10.1101/2021.06.01.446561v1)
+    """Calculate the SA-λ and SA-∞ measures of spatial autocorrelation, defined in [Shinn et al (2023)](https://www.nature.com/articles/s41593-023-01299-3)
 
     Args:
       cm (NxN numpy array): NxN correlation matrix of timeseries, where N is the number of

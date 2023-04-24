@@ -7,7 +7,7 @@ import scipy.optimize
 from .tools import spatial_exponential_floor
 
 def spatiotemporal_model_timeseries(distance_matrix, sa_lambda, sa_inf, ta_delta1s, num_timepoints, sample_rate, highpass_freq, seed=None):
-    """Simulate the spatiotemporal model from [Shinn et al (2022)](https://www.biorxiv.org/content/10.1101/2021.06.01.446561v1)
+    """Simulate the spatiotemporal model from [Shinn et al (2023)](https://www.nature.com/articles/s41593-023-01299-3)
 
     Args:
       distance_matrix (NxN numpy array): the NxN distance matrix, representing the spatial distance
@@ -42,7 +42,7 @@ def spatiotemporal_model_timeseries(distance_matrix, sa_lambda, sa_inf, ta_delta
     return tss
 
 def intrinsic_timescale_sa_model_timeseries(distance_matrix, sa_lambda, sa_inf, ta_delta1s, num_timepoints, sample_rate, highpass_freq, seed=0):
-    """Simulate the intrinsic timescale + spatial autocorrelation model from [Shinn et al (2022)](https://www.biorxiv.org/content/10.1101/2021.06.01.446561v1)
+    """Simulate the intrinsic timescale + spatial autocorrelation model from [Shinn et al (2023)](https://www.nature.com/articles/s41593-023-01299-3)
 
     Args:
       distance_matrix (NxN numpy array): the NxN distance matrix, representing the spatial distance
@@ -77,7 +77,7 @@ def correlated_spectral_sampling(cm, spectra, seed=None):
     """Generate timeseries with given amplitude spectra and correlation matrices
 
     This implements Correlated Spectral Sampling, as described in [Shinn et al
-    (2022)](https://www.biorxiv.org/content/10.1101/2021.06.01.446561v1).
+    (2023)](https://www.nature.com/articles/s41593-023-01299-3).
 
     Args:
       cm (NxN numpy array): The correlation matrix

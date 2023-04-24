@@ -1,10 +1,10 @@
 # Spatiotemporal modeling tools for Python
 
 This package provides tools for modeling and analyzing spatial and temporal
-autocorrelation in Python.  It is based on the methods from the paper [Spatial
-and temporal autocorrelation weave human brain
-networks](https://www.biorxiv.org/content/10.1101/2021.06.01.446561v1).
-Included are methods to compute the following statistics:
+autocorrelation in Python.  It is based on the methods from the paper
+[Functional brain networks reflect spatial and temporal
+autocorrelation](https://www.nature.com/articles/s41593-023-01299-3).  Included
+are methods to compute the following statistics:
 
 - [Compute TA-Δ<sub>1</sub> (i.e. first-order temporal autocorrelation)][spatiotemporal.stats.temporal_autocorrelation]
 - [Compute SA-λ and SA-∞ (i.e. measurements of spatial autocorrelation)][spatiotemporal.stats.spatial_autocorrelation]
