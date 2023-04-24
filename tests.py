@@ -7,6 +7,7 @@
 
 import numpy as np
 import spatiotemporal as st
+import scipy.stats
 
 tss = [np.cumsum(np.random.RandomState(1000).randn(100,200), axis=1), # Brownian noise
        np.random.RandomState(999).randn(50, 400), # Gaussian noise
@@ -72,9 +73,32 @@ def test_fingerprint():
 
 def test_lin():
     assert st.lin([1, 2, 3], [1, 2, 3]) == 1
-    assert st.lin([1, 2, 3], [3, 2, 1]) == -1
+    assert st.lin(np.asarray([1, 2, 3]), np.asarray([3, 2, 1])) == -1
     assert st.lin([5, 5, 5], [3, 5, 7]) == 0
+    assert np.all(st.lin(np.asarray([[5,5,5],[1,2,3]]), np.asarray([[1, 2, 3], [3, 2, 1], [1, 2, 3]])) == np.asarray([[0, 0, 0], [1, -1, 1]]))
     assert 0 < st.lin([1, 2, 3], [12, 13, 14])  < st.lin([1, 2, 3], [2, 3, 4]) < 1
+
+def test_cosine():
+    assert st.cosine([1, 2, 3], [2, 3, 4]) < 1
+    assert st.cosine([1, 2, 3], [1, 2, 3]) == 1
+    assert st.cosine([1, 2, 3], [-1, -2, -3]) == -1
+
+def test_pearson():
+    assert st.pearson([1, 2, 3], [2, 3, 4]) == 1
+    assert st.pearson(np.asarray([1, 2, 3]), np.asarray([10, 8, 6])) == -1
+    assert st.pearson([5, 5, 5], [3, 5, 7]) == 0
+    assert np.all(st.pearson(np.asarray([[5,5,5],[1,2,3]]), np.asarray([[1, 2, 3], [3, 2, 1], [11, 12, 13]])) == np.asarray([[0, 0, 0], [1, -1, 1]]))
+    m = np.random.randn(100,200)
+    assert np.all(np.isclose(np.corrcoef(m), st.pearson(m, m)))
+
+def test_spearman():
+    assert st.spearman([1, 2, 3], [2, 3, 4]) == 1
+    assert st.spearman(np.asarray([1, 2, 3]), np.asarray([10, 8, 6])) == -1
+    assert st.spearman([5, 5, 5], [3, 5, 7]) == 0
+    assert np.all(st.spearman(np.asarray([[5,5,5],[1,2,3]]), np.asarray([[1, 2, 3], [3, 2, 1], [11, 12, 13]])) == np.asarray([[0, 0, 0], [1, -1, 1]]))
+    assert st.spearman([1, 2, 3], [3, 5, 6]) > st.pearson([1, 2, 3], [3, 5, 6])
+    m = np.random.randn(100,200)
+    assert np.all(np.isclose(scipy.stats.spearmanr(m.T).correlation, st.spearman(m, m)))
 
 def test_spatiotemporal_model():
     poss = np.random.rand(50,3)*100
